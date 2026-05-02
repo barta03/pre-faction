@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Manrope, Inter } from "next/font/google";
+import { Manrope, Inter, Geist } from "next/font/google";
 import { Search } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const manrope = Manrope({
   variable: "--font-display",
@@ -27,7 +25,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${manrope.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", manrope.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-screen flex flex-col ">
         <div className="w-full h-16 flex items-center justify-center border-b-2 border-neutral-400 rounded-b-2xl">
