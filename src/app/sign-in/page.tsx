@@ -26,7 +26,7 @@ export default function SignInPage() {
       setError(res.error.message || "Something went wrong");
       
     } else {
-      router.push("/dashboard");
+      router.push("/");
     }
     setIsLoading(false)
   }
@@ -142,7 +142,7 @@ export default function SignInPage() {
             type="submit"
             className={` w-full rounded-md bg-neutral-900 py-2 px-4 text-white font-bold cursor-pointer hover:bg-neutral-800 active:scale-99 hover:scale-101 hover:shadow-xl/10 transition-all duraion-200 flex items-center justify-center ${isLoading && "opacity-75"}`}
           >
-            {isLoading ? <Loader className="animate-spin [animation-duration:1.5s]"/>:"Sign In"}
+            {isLoading ? <Loader className="animate-spin animation-duration:[1.5s]"/>:"Sign In"}
           </button>
         </form>
         <p>
