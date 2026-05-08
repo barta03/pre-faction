@@ -4,6 +4,7 @@ import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import { MessageSquareText } from "@/components/animate-ui/icons/message-square-text";
 import { EllipsisVertical, HeartIcon } from "lucide-react";
 import { useState } from "react";
+import PostContent from "./PostContent";
 
 interface PostCard {
   fullName: string;
@@ -57,8 +58,9 @@ const PostCard = ({
             <h1 className=" font-bold text-neutral-700">{title}</h1>
             <br />
             <p className="line-clamp-8 text-balance text-neutral-800 leading-6">
-             {JSON.stringify(content)}
+              
             </p>
+            <PostContent content={content}/>
           </div>
           <div className="w-full text-neutral-700 flex gap-2">
             <button className="flex cursor-pointer group">

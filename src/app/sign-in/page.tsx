@@ -21,6 +21,9 @@ export default function SignInPage() {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     });
+    if (res?.data?.token) {
+    localStorage.setItem("token", res.data.token); // 🔥 STORE HERE
+  }
 
     if (res.error) {
       setError(res.error.message || "Something went wrong");
