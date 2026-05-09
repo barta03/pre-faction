@@ -15,14 +15,14 @@ export default function WritePage() {
     if (!title || !content) return alert("Missing fields");
 
     setLoading(true);
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
 
     try {
       const res = await fetch("/api/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          // Authorization: `Bearer ${token}`
         },
         // credentials: "include",
         body: JSON.stringify({ title, content }),

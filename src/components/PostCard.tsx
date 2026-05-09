@@ -33,8 +33,8 @@ const PostCard = ({
         <div className="h-full">
           <div className="size-10 rounded-full bg-linear-to-tl from-green-600 to-lime-400"></div>
         </div>
-        <div className="flex flex-col justify-between gap-6 h-full ">
-          <div className="flex w-full justify-between ">
+        <div className="flex flex-col justify-between gap-6 h-full w-full">
+          <div className="flex justify-between">
             <div className="flex gap-4">
               <div className="flex flex-col ">
                 <p>{fullName}</p>
@@ -54,10 +54,10 @@ const PostCard = ({
               </button>{" "}
             </div>
           </div>
-          <div className="text-sm pr-4 tracking-tight">
-            <h1 className=" font-bold text-neutral-700">{title}</h1>
+          <div className="text-sm pr-4 tracking-wide">
+            <h1 className="font-extrabold text-neutral-700 tracking-tight text-xl">{title}</h1>
             <br />
-            <p className="line-clamp-8 text-balance text-neutral-800 leading-6">
+            <p className="line-clamp-8 text-balance  text-neutral-800 leading-6">
               
             </p>
             <PostContent content={content}/>

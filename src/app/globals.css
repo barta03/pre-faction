@@ -1,9 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+
+
+* {
+  box-sizing: border-box;
+}
 
 :root {
   --font-sans: var(--font-sans);
@@ -47,7 +52,9 @@ body {
   background-color: var(--color-neutral-100);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-display), sans-serif;
 }
 
@@ -157,10 +164,223 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
+  }
+}
+
+@layer components {
+  .tiptap> :first-child {
+    margin-top: 0;
+  }
+
+  /* Lists */
+  .tiptap ul,
+  .tiptap ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+  }
+
+  .tiptap ul li p,
+  .tiptap ol li p {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+  }
+
+  .tiptap li {
+    @apply list-disc;
+  }
+
+  /* Headings */
+  .tiptap h1,
+  .tiptap h2,
+  .tiptap h3,
+  .tiptap h4,
+  .tiptap h5,
+  .tiptap h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+  }
+
+  .tiptap h1,
+  .tiptap h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tiptap h1 {
+    font-size: 1.4rem;
+  }
+
+  .tiptap h2 {
+    font-size: 1.2rem;
+  }
+
+  /* Code */
+  .tiptap code {
+    background-color: #eee;
+    border-bottom-left-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
+
+  .tiptap pre {
+    background: #171717;
+    color: white;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .tiptap pre code {
+    background: transparent;
+    padding: 0;
+  }
+
+  /* Blockquote */
+  .tiptap blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 1rem;
+  }
+
+  /* HR */
+  .tiptap hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 2rem 0;
+  }
+
+  .tiptap mark {
+    background-color: #faf594;
+    border-radius: 0.4rem;
+    box-decoration-break: clone;
+    padding: 0.1rem 0.3rem;
+  }
+}
+
+@layer components {
+  .tiptap table {
+    @apply border-collapse w-full table-fixed overflow-hidden border border-gray-300;
+  }
+
+  .tiptap table td,
+  .tiptap table th {
+    @apply border border-gray-300 px-2 py-1.5 align-top relative;
+  }
+
+  .tiptap table th {
+    @apply font-bold text-left bg-neutral-200/70;
+  }
+
+  .tiptap table .selectedCell::after {
+    content: "";
+    @apply absolute inset-0 bg-gray-200 pointer-events-none z-2;
+  }
+
+  .tiptap table .column-resize-handle {
+    @apply absolute top-0 bottom-0.5 -right-0.5 w-1 bg-purple-500 pointer-events-none;
+  }
+
+  .tiptap .tableWrapper {
+    @apply overflow-x-auto my-6 border-[0.5px] border-gray-300;
+  }
+
+  .tiptap blockquote {
+    @apply border-l-[3px] border-gray-300 pl-4 my-6;
+  }
+
+  .tiptap hr {
+    @apply border-0 border-t border-gray-300 my-8;
+  }
+}
+
+@layer components {
+  .tiptap pre {
+    @apply bg-neutral-900 text-white rounded-b-lg  px-4 py-3 overflow-x-auto;
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .tiptap pre code {
+    @apply bg-transparent text-inherit text-[0.8rem] p-0;
+  }
+
+  /* Syntax Highlighting */
+
+  .tiptap pre .hljs-comment,
+  .tiptap pre .hljs-quote {
+    color: #616161;
+  }
+
+  .tiptap pre .hljs-variable,
+  .tiptap pre .hljs-template-variable,
+  .tiptap pre .hljs-attribute,
+  .tiptap pre .hljs-tag,
+  .tiptap pre .hljs-regexp,
+  .tiptap pre .hljs-link,
+  .tiptap pre .hljs-name,
+  .tiptap pre .hljs-selector-id,
+  .tiptap pre .hljs-selector-class {
+    color: #f98181;
+  }
+
+  .tiptap pre .hljs-number,
+  .tiptap pre .hljs-meta,
+  .tiptap pre .hljs-built_in,
+  .tiptap pre .hljs-builtin-name,
+  .tiptap pre .hljs-literal,
+  .tiptap pre .hljs-type,
+  .tiptap pre .hljs-params {
+    color: #fbbc88;
+  }
+
+  .tiptap pre .hljs-string,
+  .tiptap pre .hljs-symbol,
+  .tiptap pre .hljs-bullet {
+    color: #b9f18d;
+  }
+
+  .tiptap pre .hljs-title,
+  .tiptap pre .hljs-section {
+    color: #faf594;
+  }
+
+  .tiptap pre .hljs-keyword,
+  .tiptap pre .hljs-selector-tag {
+    color: #70cff8;
+  }
+
+  .tiptap pre .hljs-emphasis {
+    @apply italic;
+  }
+
+  .tiptap pre .hljs-strong {
+    @apply font-bold;
+  }
+
+  .tiptap a {
+    @apply hover:underline text-neutral-600 hover:text-neutral-700/90
+  }
+
+  .tiptap img {
+    @apply object-cover rounded-lg
+  }
+}
+
+
+
+
+@layer components {
+  .button-group>button {
+    @apply px-4 py-1 text-sm rounded-sm cursor-pointer font-semibold bg-neutral-200;
+  }
+
+  .button-group>button.is-active {
+    @apply bg-purple-500 text-white hover:bg-purple-500/85;
   }
 }

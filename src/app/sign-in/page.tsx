@@ -22,7 +22,9 @@ export default function SignInPage() {
       password: formData.get("password") as string,
     });
     if (res?.data?.token) {
-    localStorage.setItem("token", res.data.token); // 🔥 STORE HERE
+    // localStorage.setItem("token", res.data.token);
+    console.log(res)
+     // 🔥 STORE HERE
   }
 
     if (res.error) {

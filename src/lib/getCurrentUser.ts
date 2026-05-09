@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 export async function getCurrentUser(req: Request) {
   try {
     const session = await auth.api.getSession({
-      headers:  req.headers,
+      headers:  await headers(),
       
     });
     console.log("SESSION DEBUG:", session);
