@@ -48,5 +48,5 @@ export default function PostContent({ content }: { content: any }) {
 
   if (!editor) return null;
 
-  return <EditorContent editor={editor} className="tiptap" />;
+  return <EditorContent editor={editor} className="tiptap h-full" />;
 }

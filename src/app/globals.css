@@ -192,8 +192,12 @@ body {
     margin-bottom: 0.25em;
   }
 
-  .tiptap li {
-    @apply list-disc;
+  .tiptap ul {
+    @apply list-disc pl-4;
+  }
+
+  .tiptap ol {
+    @apply list-decimal pl-4;
   }
 
   /* Headings */
@@ -302,7 +306,7 @@ body {
 
 @layer components {
   .tiptap pre {
-    @apply bg-neutral-900 text-white rounded-b-lg  px-4 py-3 overflow-x-auto;
+    @apply bg-neutral-900 text-white rounded-b-lg px-4 py-3 overflow-x-auto;
     font-family: "JetBrains Mono", monospace;
   }
 
@@ -368,11 +372,43 @@ body {
   }
 
   .tiptap img {
-    @apply object-cover rounded-lg
+    @apply rounded-lg my-4 h-auto cursor-pointer;
+    max-height: min(80vh, 800px);
   }
+
+  .tiptap [data-resize-container].ProseMirror-selectednode img {
+    @apply outline-2 outline-blue-500;
+  }
+
+
+  .tiptap [data-resize-handle="top"],
+  .tiptap [data-resize-handle="bottom"] {
+    @apply h-1 cursor-row-resize;
+  }
+
+  .tiptap [data-resize-handle="left"],
+  .tiptap [data-resize-handle="right"] {
+    @apply w-1 cursor-col-resize;
+  }
+
+  .tiptap [data-resize-handle="top"] {
+    @apply top-0 left-0 right-0;
+  }
+
+  .tiptap [data-resize-handle="bottom"] {
+    @apply bottom-0 left-0 right-0;
+  }
+
+  .tiptap [data-resize-handle="left"] {
+    @apply left-0 top-0 bottom-0;
+  }
+
+  .tiptap [data-resize-handle="right"] {
+    @apply right-0 top-0 bottom-0;
+  }
+
+
 }
-
-
 
 
 @layer components {
@@ -384,3 +420,37 @@ body {
     @apply bg-purple-500 text-white hover:bg-purple-500/85;
   }
 }
+
+/* .post-preview {
+  position: relative;
+}
+
+.post-preview .tiptap {
+  max-height: 700px;
+  overflow: hidden;
+}
+
+.post-preview::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 140px;
+
+  pointer-events: none;
+
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(245 245 245 / 0.95));
+}
+
+.post-card:hover .post-preview::after {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(161,161,161/0.6)
+  );
+} */

@@ -48,7 +48,8 @@ export default function WritePage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-4">
+    <div className="max-w-6xl mx-auto p-6 space-y-4">
+      
       <input
         name="title"
         id="title"
@@ -58,7 +59,7 @@ export default function WritePage() {
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      <Editor onChange={setContent} />
+      <Editor content={null} onChange={setContent} />
 
       <button
         onClick={handleSubmit}

@@ -16,6 +16,7 @@ export default function SignInPage() {
     e.preventDefault();
     setIsLoading(true)
     setError(null);
+    router.prefetch('/')
     const formData = new FormData(e.currentTarget);
     const res = await signIn.email({
       email: formData.get("email") as string,

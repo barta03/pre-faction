@@ -1,10 +1,9 @@
 "use client";
 
-import { useEditor, EditorContent,ReactNodeViewRenderer } from "@tiptap/react";
-// import { TextStyleKit } from "@tiptap/extension-text-style";
 import { MenuBar } from "./MenuBar";
-import { useEffect, useRef } from "react";
-import React from "react";
+import CodeBlockComponent from "./CodeBlockComponent";
+
+import { useEditor, EditorContent, ReactNodeViewRenderer } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
@@ -23,13 +22,14 @@ import Typography from "@tiptap/extension-typography";
 // import html from "highlight.js/lib/languages/xml";
 
 import { all, createLowlight } from "lowlight";
-import CodeBlockComponent from "./CodeBlockComponent";
 const lowlight = createLowlight(all);
 
 export default function Editor({
   onChange,
+  content,
 }: {
   onChange: (content: any) => void;
+  content?: any;
 }) {
   const CustomTableCell = TableCell.extend({
     addAttributes() {
@@ -52,12 +52,12 @@ export default function Editor({
     },
   });
   const extensions = [
-    StarterKit,
+    StarterKit.configure({ codeBlock: false, document: false }),
     CodeBlockLowlight.extend({
-        addNodeView() {
-          return ReactNodeViewRenderer(CodeBlockComponent)
-        },
-      }).configure({
+      addNodeView() {
+        return ReactNodeViewRenderer(CodeBlockComponent);
+      },
+    }).configure({
       lowlight,
       enableTabIndentation: true,
     }),
@@ -70,9 +70,9 @@ export default function Editor({
     Typography,
     Image.configure({
       resize: {
-        enabled: true, // This must be true
-        directions: ["top", "bottom", "left", "right"],
-
+        enabled: true, // This MUST be true for handles to appear
+        directions: ['top', 'bottom', 'left', 'right'],
+        minWidth: 50,
         alwaysPreserveAspectRatio: true,
       },
     }),
@@ -88,19 +88,21 @@ export default function Editor({
   const editor = useEditor(
     {
       extensions,
+
       autofocus: true,
+      content: content || "",
       editorProps: {
         attributes: {
           // Add your padding classes here (e.g., p-4, px-8, py-12)
           class:
-            "p-4 border rounded-md focus:outline-none h-120 overflow-y-auto overflow-x-auto ",
+            "p-4 border rounded-md focus:outline-none max-h-[80vh] min-h-100 overflow-y-auto overflow-x-auto ",
         },
       },
       onUpdate({ editor }) {
         onChange(editor.getJSON()); // 👈 IMPORTANT
       },
       immediatelyRender: false,
-      shouldRerenderOnTransaction: false,
+
     },
     [],
   );
@@ -109,7 +111,7 @@ export default function Editor({
     <div className=" border rounded-md p-3 min-h-37.5 ">
       <MenuBar editor={editor} />
       <EditorContent
-        className="tiptap focus:outline-none min-h-37.5 "
+        className="tiptap  focus:outline-none min-h-37.5 "
         editor={editor}
       />
     </div>

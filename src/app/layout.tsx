@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Manrope, Inter, Geist } from "next/font/google";
-import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Header from "@/components/Header";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -28,12 +28,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", manrope.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-screen flex flex-col ">
-        <div className="w-full h-16 flex items-center justify-center border-b-2 border-neutral-400 rounded-b-2xl">
-          <div className="flex items-center justify-center px-4 py-2 rounded-3xl overflow-hidden bg-green-200 gap-1 border-2 border-transparent focus-within:border-green-500 transition-all duration-200" >
-            <Search className="text-neutral-500"/>
-            <input placeholder="Search" className="text-lg outline-0" type="search" name="" id="" />
-          </div>
-        </div>
+        <Header/>
         {children}
         </body>
     </html>

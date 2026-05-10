@@ -3,6 +3,7 @@ import PostCard from "@/components/PostCard";
 export default async function Home() {
   // const router = useRouter();
 
+  // const data = await fetch("/api/posts")
   const data = await fetch("http://localhost:3000/api/posts")
   const posts = await data.json()
   console.log(posts)
@@ -15,6 +16,7 @@ export default async function Home() {
         {posts.map((post:any)=>(
           <PostCard
           key={post.id}
+          id={post.id}
           fullName={post.author.name}
           userName={undefined}
           title={post.title}
