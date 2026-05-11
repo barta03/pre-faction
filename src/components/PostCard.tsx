@@ -116,9 +116,10 @@ const PostCard = ({
                     </p>
                   </div>
                   <div>
-                    <button className="px-4 py-1 border border-transparent bg-cyan-500 cursor-pointer text-white text-sm font-semibold rounded-sm  hover:border hover:border-cyan-400 hover:bg-white hover:text-cyan-500 active:inset-shadow-sm active:inset-shadow-cyan-600 transition-all duration-200">
+                    {/* <button className="px-4 py-1 border border-transparent bg-cyan-500 cursor-pointer text-white text-sm font-semibold rounded-sm  hover:border hover:border-cyan-400 hover:bg-white hover:text-cyan-500 active:inset-shadow-sm active:inset-shadow-cyan-600 transition-all duration-200">
                       Follow
-                    </button>
+                    </button> */}
+                    <button className="text-sm text-blue-500 hover:underline hover:underline-offset-2 hover:text-blue-600/90 cursor-pointer font-semibold">Follow</button>
                   </div>
                 </div>
                 <div className="relative " ref={menuRef}>
@@ -171,14 +172,14 @@ const PostCard = ({
                 </div>
               </div>
               <div className="w-full text-neutral-700 flex gap-2">
-                <button className="flex cursor-pointer group">
+                <button className="flex cursor-pointer group ">
                   <AnimateIcon
                     animateOnHover
-                    className=" rounded-md text-sm  flex justify-center items-center gap-1 p-1 duration-200 transition-all"
+                    className=" rounded-md text-sm bg-neutral-100  flex justify-center items-center gap-1 p-1 duration-200 transition-all"
                   >
                     <MessageSquareText
                       className={
-                        "size-7 stroke-1 py-1 group-hover:bg-sky-200 group-hover:text-sky-600 rounded-sm duration-200 transition-all"
+                        "size-6 stroke-1 pt-1 pb-0.5 group-hover:bg-sky-200 group-hover:text-sky-600 rounded-sm duration-200 transition-all"
                       }
                     />
                     <p className="pb-1 pr-1 text-md text-neutral-700 duration-200 transition-all">
@@ -190,7 +191,7 @@ const PostCard = ({
                   onClick={(e) => setLike((p) => !p)}
                   className="flex cursor-pointer group"
                 >
-                  <div className="rounded-md text-sm  flex justify-center items-center gap-1 p-1 duration-200 transition-all">
+                  <div className="rounded-md text-sm bg-neutral-100 flex justify-center items-center gap-1 p-1 duration-200 transition-all">
                     <HeartIcon
                       className={`size-7 stroke-1 py-1 group-hover:bg-pink-200 group-hover:scale-105  group-hover:text-pink-500 rounded-sm duration-200 transition-all ${like && "fill-pink-500 text-pink-500 "}`}
                     />
