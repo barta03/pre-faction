@@ -13,16 +13,30 @@ datasource db {
 }
 
 model User {
-  id            String    @id
+  id            String  @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+
+  bio      String?
+  username String  @unique
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sessions  Session[]
+  accounts  Account[]
+
   posts Post[]
+
+  comments Comment[]
+  likes    Like[]
+
+  followers Follow[] @relation("followers")
+  following Follow[] @relation("following")
+
+  savedPosts  SavedPost[]
+  collections Collection[]
 
   @@unique([email])
   @@map("user")
@@ -77,15 +91,99 @@ model Verification {
 }
 
 model Post {
-  id String @id @default(uuid()) 
-  title String
-  content Json
-  published Boolean @default(false)
-  author User @relation(fields: [authorId],references: [id])
-  authorId String
+  id        String   @id @default(uuid())
+  title     String
+  content   Json
+  published Boolean  @default(false)
+  
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("post")
+  comments Comment[]
+  likes    Like[]
 
+  savedBy SavedPost[]
+
+  @@index([authorId])
+  @@map("post")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author User @relation(fields: [authorId],references: [id],onDelete: Cascade)
+  authorId String
+
+  post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
+  postId String
+
+  @@index([postId])
+  @@index([authorId])
+}
+
+model Like {
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+
+  @@unique([userId, postId])
+  @@index([postId])
+}
+
+model Follow {
+  id String @id @default(uuid())
+
+  follower   User   @relation("following", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId String
+
+  following   User   @relation("followers", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+model Collection{
+  id String @id @default(uuid())
+  name String
+  createdAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  userId String
+
+  posts SavedPost[]
+
+  @@index([userId])
+
+}
+
+model SavedPost{
+  id String @id @default(uuid())
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  userId String
+
+  post Post @relation(fields: [postId],references: [id],onDelete: Cascade)
+  postId String
+
+  collection Collection? @relation(fields: [collectionId],references: [id],onDelete: Cascade)
+  collectionId String?
 }

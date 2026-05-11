@@ -34,7 +34,8 @@ export async function GET() {
       author:{
         select:{
           id:true,
-          name:true
+          name:true,
+          username:true,
         }
       }
     }

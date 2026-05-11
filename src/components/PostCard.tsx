@@ -20,7 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface PostCard {
   id: string;
   fullName: string;
-  userName?: string;
+  userName: string;
   profile_img?: string;
   title: string;
   content: string;
@@ -110,8 +110,8 @@ const PostCard = ({
               <div className="flex justify-between">
                 <div className="flex gap-4">
                   <div className="flex flex-col ">
-                    <p>{fullName}</p>
-                    <p className="text-sm font-semibold -mt-1 hover:text-green-800 hover:underline cursor-pointer">
+                    <p className="font-semibold text-md">{fullName}</p>
+                    <p className="text-sm -mt-1 hover:text-green-800 hover:underline cursor-pointer">
                       @{userName}
                     </p>
                   </div>
@@ -166,7 +166,7 @@ const PostCard = ({
                 <br />
                 <p className="line-clamp-8 text-balance  text-neutral-800 leading-6"></p>
                 {/* <div className="post-preview max-h-175 overflow-hidden"> */}
-                <div className="post-preview overflow-hidden line-clamp-20">
+                <div className="post-preview overflow-hidden ">
                   <PostContent content={content} />
                 </div>
               </div>

@@ -18,7 +18,7 @@ export default async function Home() {
           key={post.id}
           id={post.id}
           fullName={post.author.name}
-          userName={undefined}
+          userName={post.author.username}
           title={post.title}
           content={post.content}
           comments={post.comments ?? 0}
