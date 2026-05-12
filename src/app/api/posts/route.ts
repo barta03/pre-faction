@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/lib/getCurrentUser";
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   console.log("HEADERS:", req.headers);
@@ -18,27 +18,50 @@ export async function POST(req: Request) {
   }
 
   const post = await prisma.post.create({
-    data: { title,content,authorId:user.id },
+    data: { title, content, authorId: user.id },
   });
 
-  return NextResponse.json(post)
+  return NextResponse.json(post);
 }
 
+export async function GET(req: NextRequest) {
+  const user = await getCurrentUser(req);
 
-export async function GET() {
   const posts = await prisma.post.findMany({
-    orderBy:{
-      createdAt:"desc"
+    orderBy: {
+      createdAt: "desc",
     },
-    include:{
-      author:{
-        select:{
-          id:true,
-          name:true,
-          username:true,
-        }
-      }
-    }
-  })
-  return NextResponse.json(posts)
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          image: true,
+        },
+      },
+      _count: {
+        select: {
+          likes: true,
+          comments: true,
+        },
+      },
+      ...(user && {
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
+      }),
+    },
+  });
+
+  if (!user) {
+    return NextResponse.json(posts);
+  }
+  const transformedPosts = posts.map((post) => ({
+    ...post,
+    likedByCurrentUser: post.likes.some((like) => like.userId == user.id),
+  }));
+  return NextResponse.json(transformedPosts);
 }

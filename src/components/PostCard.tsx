@@ -16,6 +16,7 @@ import PostContent from "./PostContent";
 import { useRouter } from "next/navigation";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { Heart } from "./animate-ui/icons/heart";
 
 interface PostCard {
   id: string;
@@ -26,6 +27,7 @@ interface PostCard {
   content: string;
   comments?: number;
   likes?: number;
+  likedByCurrentUser?: boolean;
 }
 
 const PostCard = ({
@@ -37,10 +39,13 @@ const PostCard = ({
   content,
   comments,
   likes,
+  likedByCurrentUser,
 }: PostCard) => {
-  const [like, setLike] = useState<boolean>(false);
+  const [like, setLike] = useState<boolean>(likedByCurrentUser || false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
+  const [likesCount, setLikesCount] = useState<number>(likes ?? 0);
   const router = useRouter();
 
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -79,6 +84,36 @@ const PostCard = ({
     }, 250);
   };
 
+  const handleLike = async () => {
+    if (isLiking) return;
+    setIsLiking(true);
+    const previousLikeState = like;
+    const previousCount = likesCount;
+    console.log("LIKE clicked");
+
+    setLike((prev) => !prev);
+    setLikesCount((prev) => (previousLikeState ? prev - 1 : prev + 1));
+
+    try {
+      const res = await fetch(`/api/posts/${id}/like`, { method: "POST" });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error);
+      }
+
+      setLike(data.liked);
+      setLikesCount(data.likesCount);
+      console.log("LIKED UPDATED");
+    } catch (error) {
+      setLike(previousLikeState);
+      setLikesCount(previousCount);
+      console.log(error);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
   return (
     <AnimatePresence>
       {!isDeleting && (
@@ -104,7 +139,16 @@ const PostCard = ({
           ></div>
           <div className="post-card w-full py-4 flex gap-2 hover:bg-neutral-400/10 px-4 my-2 rounded-md origin-top transition-colors">
             <div className="h-full">
-              <div className="size-10 rounded-full bg-linear-to-tl from-green-600 to-lime-400"></div>
+              {/* <div className="size-10 rounded-full bg-linear-to-tl from-green-600 to-lime-400"></div> */}
+              <div className="size-11 flex items-center justify-center bg-conic-180 from-indigo-600 via-indigo-100 to-indigo-600 rounded-full">
+                <div className="size-10 rounded-full shadow-lg/10 overflow-hidden bg-red-500">
+                  <img
+                    className="object-cover object-top rounded-full"
+                    src="https://images.meigen.ai/cdn-cgi/image/format=auto,quality=85/tweets/2031663655121834175/0.jpg"
+                    alt="pic"
+                  />
+                </div>
+              </div>
             </div>
             <div className="flex flex-col justify-between gap-6 h-full w-full">
               <div className="flex justify-between">
@@ -119,7 +163,9 @@ const PostCard = ({
                     {/* <button className="px-4 py-1 border border-transparent bg-cyan-500 cursor-pointer text-white text-sm font-semibold rounded-sm  hover:border hover:border-cyan-400 hover:bg-white hover:text-cyan-500 active:inset-shadow-sm active:inset-shadow-cyan-600 transition-all duration-200">
                       Follow
                     </button> */}
-                    <button className="text-sm text-blue-500 hover:underline hover:underline-offset-2 hover:text-blue-600/90 cursor-pointer font-semibold">Follow</button>
+                    <button className="text-sm text-blue-500 hover:underline hover:underline-offset-2 hover:text-blue-600/90 cursor-pointer font-semibold">
+                      Follow
+                    </button>
                   </div>
                 </div>
                 <div className="relative " ref={menuRef}>
@@ -188,15 +234,28 @@ const PostCard = ({
                   </AnimateIcon>
                 </button>
                 <button
-                  onClick={(e) => setLike((p) => !p)}
+                  onClick={handleLike}
                   className="flex cursor-pointer group"
                 >
                   <div className="rounded-md text-sm bg-neutral-100 flex justify-center items-center gap-1 p-1 duration-200 transition-all">
-                    <HeartIcon
-                      className={`size-7 stroke-1 py-1 group-hover:bg-pink-200 group-hover:scale-105  group-hover:text-pink-500 rounded-sm duration-200 transition-all ${like && "fill-pink-500 text-pink-500 "}`}
-                    />
+                    {!isLiking ? (
+                      <HeartIcon
+                        className={`size-7 stroke-1 py-1 group-hover:bg-pink-200 group-hover:scale-105  group-hover:text-pink-500 rounded-sm duration-200 transition-all ${like && "fill-pink-500 text-pink-500 "}`}
+                      />
+                    ) : (
+                      <Heart
+                        loop
+                        className={
+                          "size-7 text-pink-600 transition-all duration-200 py-1"
+                        } 
+                        delay={200}
+                        animation="path-loop"
+                        initialOnAnimateEnd
+                        animateOnView
+                      />
+                    )}
                     <p className="pb-1 pr-1 text-md text-neutral-700 duration-200 transition-all">
-                      {likes}
+                      {likesCount}
                     </p>
                   </div>
                 </button>

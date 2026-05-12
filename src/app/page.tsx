@@ -1,10 +1,14 @@
 import PostCard from "@/components/PostCard";
+import { cookies } from 'next/headers';
+
 
 export default async function Home() {
   // const router = useRouter();
 
-  // const data = await fetch("/api/posts")
-  const data = await fetch("http://localhost:3000/api/posts")
+  // const data = await fetch("/api/posts") 
+   const cookieStore = await cookies();
+  const allCookies = cookieStore.toString();
+  const data = await fetch("http://localhost:3000/api/posts",{headers:{Cookie:allCookies}})
   const posts = await data.json()
   console.log(posts)
   console.log(data)
@@ -21,8 +25,9 @@ export default async function Home() {
           userName={post.author.username}
           title={post.title}
           content={post.content}
-          comments={post.comments ?? 0}
-          likes={post.likes ?? 0}
+          comments={post._count?.comments ?? 0}
+          likes={post._count?.likes ?? 0}
+          likedByCurrentUser={post.likedByCurrentUser}
         />
         ))}
       </div>
