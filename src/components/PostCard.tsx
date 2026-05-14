@@ -137,7 +137,7 @@ const PostCard = ({
             // onClick={() => setIsMenuOpen(false)}
             className="h-px w-full bg-neutral-400 "
           ></div>
-          <div className="post-card w-full py-4 flex gap-2 hover:bg-neutral-400/10 px-4 my-2 rounded-md origin-top transition-colors">
+          <div onClick={() => router.push(`/posts/${id}`)} className="post-card w-full py-4 flex gap-2 hover:bg-neutral-400/10 px-4 my-2 rounded-md origin-top transition-colors">
             <div className="h-full">
               {/* <div className="size-10 rounded-full bg-linear-to-tl from-green-600 to-lime-400"></div> */}
               <div className="size-11 flex items-center justify-center bg-conic-180 from-indigo-600 via-indigo-100 to-indigo-600 rounded-full">
