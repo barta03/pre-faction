@@ -1,17 +1,13 @@
 import PostContent from "@/components/PostContent";
-import {
-  CalendarDaysIcon,
-  HeartIcon,
-  MessageSquare,
-  Share,
-  Undo2,
-} from "lucide-react";
+import { CalendarDaysIcon, HeartIcon, Share } from "lucide-react";
 import prisma from "@/lib/prisma";
 import GoBackButton from "@/components/GoBackButton";
-import Editor from "@/components/Editor";
+import CommentSection from "@/components/CommentSection";
+
 
 const PostPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
+  
 
   const post = await prisma.post.findUnique({
     where: {
@@ -27,13 +23,13 @@ const PostPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <div className="mt-10 max-w-4xl w-full mx-auto text-neutral-600 pb-30">
+    <div className="mt-10 lg:max-w-4xl sm:max-w-xl max-w-lg w-full mx-auto text-neutral-600 pb-30 px-4">
       <div className="w-full flex">
         <GoBackButton />
       </div>
 
       <div className="min-w-full w-full flex flex-col ">
-        <h1 className="text-neutral-900 font-bold text-4xl tracking-tighter capitalize mb-4 mt-6">
+        <h1 className="text-neutral-900 font-bold text-4xl tracking-tighter capitalize mb-4 mt-6 ">
           {post.title}
         </h1>
         <div className="min-w-full flex items-center justify-between">
@@ -75,16 +71,9 @@ const PostPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           <PostContent content={post.content} />
         </div>
         <div className="w-full h-px bg-neutral-400 my-4"></div>
-        <div className="flex items-center gap-2">
-          <div className="ring-1 ring-neutral-400 w-full flex items-center justify-center hover:ring-2 focus-within:ring-2 rounded-md px-2 py-2 gap-2 focus-within:ring-green-700/70">
-            <MessageSquare size={20} className="text-neutral-400 " />
-            <input
-              type="text"
-              className=" w-full outline-0"
-              placeholder="Share your thoughts ..."
-            />
-          </div>
-        </div>
+        <section id="comments" className="flex items-center">
+          <CommentSection id={id} />
+        </section>
       </div>
     </div>
   );

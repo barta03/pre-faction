@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "./animate-ui/icons/heart";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface PostCard {
   id: string;
@@ -46,6 +48,8 @@ const PostCard = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
   const [likesCount, setLikesCount] = useState<number>(likes ?? 0);
+  // const [isOverflowing, setIsOverflowing] = useState(false);
+
   const router = useRouter();
 
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -114,6 +118,30 @@ const PostCard = ({
     }
   };
 
+  const shouldMaskContent = (content: any) => {
+    if (!content?.content) return false;
+
+    let totalLength = 0;
+
+    const traverse = (nodes: any[]) => {
+      nodes.forEach((node) => {
+        if (node.text) {
+          totalLength += node.text.length;
+        }
+
+        if (node.content) {
+          traverse(node.content);
+        }
+      });
+    };
+
+    traverse(content.content);
+
+    return totalLength > 500;
+  };
+
+  const isOverflowing = shouldMaskContent(content);
+
   return (
     <AnimatePresence>
       {!isDeleting && (
@@ -137,11 +165,11 @@ const PostCard = ({
             // onClick={() => setIsMenuOpen(false)}
             className="h-px w-full bg-neutral-400 "
           ></div>
-          <div onClick={() => router.push(`/posts/${id}`)} className="post-card w-full py-4 flex gap-2 hover:bg-neutral-400/10 px-4 my-2 rounded-md origin-top transition-colors">
+          <div className=" post-card w-full py-4 flex gap-2 hover:bg-neutral-400/10 px-4 my-2 rounded-md origin-top transition-colors">
             <div className="h-full">
               {/* <div className="size-10 rounded-full bg-linear-to-tl from-green-600 to-lime-400"></div> */}
               <div className="size-11 flex items-center justify-center bg-conic-180 from-indigo-600 via-indigo-100 to-indigo-600 rounded-full">
-                <div className="size-10 rounded-full shadow-lg/10 overflow-hidden bg-red-500">
+                <div className="size-10 rounded-full shadow-lg/10 overflow-hidden">
                   <img
                     className="object-cover object-top rounded-full"
                     src="https://images.meigen.ai/cdn-cgi/image/format=auto,quality=85/tweets/2031663655121834175/0.jpg"
@@ -204,8 +232,20 @@ const PostCard = ({
                 </div>
               </div>
               <div
-                // onClick={() => setIsMenuOpen(false)}
-                className="text-sm pr-4 tracking-wide "
+                onClick={() => router.push(`/posts/${id}`)}
+                className={cn(
+                  "text-sm pr-4 tracking-wide cursor-pointer max-h-200 overflow-hidden",
+                )}
+                style={
+                  isOverflowing
+                    ? {
+                        maskImage:
+                          "linear-gradient(to bottom, black 70%, transparent 100%)",
+                        WebkitMaskImage:
+                          "linear-gradient(to bottom, black 70%, transparent 100%)",
+                      }
+                    : undefined
+                }
               >
                 <h1 className="font-extrabold text-neutral-700 tracking-tight text-xl">
                   {title}
@@ -233,6 +273,7 @@ const PostCard = ({
                     </p>
                   </AnimateIcon>
                 </button>
+
                 <button
                   onClick={handleLike}
                   className="flex cursor-pointer group"
@@ -247,7 +288,7 @@ const PostCard = ({
                         loop
                         className={
                           "size-7 text-pink-600 transition-all duration-200 py-1"
-                        } 
+                        }
                         delay={200}
                         animation="path-loop"
                         initialOnAnimateEnd
