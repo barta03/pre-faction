@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  console.log("HEADERS:", req.headers);
+  // console.log("HEADERS:", req.headers);
   const user = await getCurrentUser(req);
 
   if (!user) {

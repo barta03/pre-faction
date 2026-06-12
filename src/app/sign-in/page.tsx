@@ -24,7 +24,7 @@ export default function SignInPage() {
     });
     if (res?.data?.token) {
     // localStorage.setItem("token", res.data.token);
-    console.log(res)
+    // console.log(res)
      // 🔥 STORE HERE
   }
 

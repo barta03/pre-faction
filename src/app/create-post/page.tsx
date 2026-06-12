@@ -31,14 +31,14 @@ export default function WritePage() {
       const data = await res.json(); // 👈 ALWAYS read response
 
       if (!res.ok) {
-        console.log("API ERROR:", data);
+        // console.log("API ERROR:", data);
         alert(data.error || "Failed to create post");
         return;
       }
 
       router.push("/");
     } catch (error) {
-      console.log("NETWORK ERROR:", error);
+      // console.log("NETWORK ERROR:", error);
       alert("Network error");
     } finally {
       setLoading(false);

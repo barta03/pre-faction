@@ -26,7 +26,7 @@ export default function EditPage() {
 
         setContent(data.content);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert("Network Error");
       } finally {
         setFetcing(false);
@@ -55,13 +55,13 @@ export default function EditPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        console.log("API Error: ", data.error);
+        // console.log("API Error: ", data.error);
         alert(data.error || "Failed to update Post");
         return;
       }
       router.push("/");
     } catch (error) {
-      console.log("NETWORK ERROR:", error);
+      // console.log("NETWORK ERROR:", error);
       alert("Network Error");
     } finally {
       setLoading(false);

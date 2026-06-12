@@ -7,7 +7,7 @@ export async function getCurrentUser(req: Request) {
       headers:  await headers(),
       
     });
-    console.log("SESSION DEBUG:", session);
+    // console.log("SESSION DEBUG:", session);
     if (!session?.user) return null;
     return session.user;
   } catch (e) {

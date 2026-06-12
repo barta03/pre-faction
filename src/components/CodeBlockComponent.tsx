@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 import {
   NodeViewContent,
@@ -6,7 +7,7 @@ import {
   type NodeViewProps,
 } from "@tiptap/react";
 
-import { CodeXml, Copy } from "lucide-react";
+import { CodeXml, Copy, CopyCheck } from "lucide-react";
 
 const CodeBlockComponent = ({
   node,
@@ -15,17 +16,22 @@ const CodeBlockComponent = ({
   editor,
 }: NodeViewProps) => {
   const defaultLanguage = node.attrs.language;
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
+    setIsCopied(true);
     try {
       await navigator.clipboard.writeText(node.textContent);
     } catch (error) {
       console.error("Copy failed:", error);
     }
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 500);
   };
 
   return (
-    <NodeViewWrapper className="code-block overflow-hidden rounded-lg border border-neutral-700 my-4">
+    <NodeViewWrapper className="code-block overflow-hidden rounded-lg border border-neutral-700 my-">
       {/* Top Bar */}
       <div className="flex items-center justify-between border-b border-neutral-700 bg-neutral-900 px-3 py-2">
         {/* Left */}
@@ -69,7 +75,7 @@ const CodeBlockComponent = ({
             onClick={handleCopy}
             className="cursor-pointer text-neutral-400 transition-colors hover:text-white"
           >
-            <Copy size={16} />
+            {!isCopied? <Copy size={16} />:<CopyCheck size={16} className="text-green-500"/>}
           </button>
         </div>
       </div>

@@ -82,7 +82,7 @@ const PostCard = ({
         }
         router.refresh();
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         alert("Network Error");
       }
     }, 250);
@@ -93,7 +93,7 @@ const PostCard = ({
     setIsLiking(true);
     const previousLikeState = like;
     const previousCount = likesCount;
-    console.log("LIKE clicked");
+    // console.log("LIKE clicked");
 
     setLike((prev) => !prev);
     setLikesCount((prev) => (previousLikeState ? prev - 1 : prev + 1));
@@ -108,11 +108,11 @@ const PostCard = ({
 
       setLike(data.liked);
       setLikesCount(data.likesCount);
-      console.log("LIKED UPDATED");
+      // console.log("LIKED UPDATED");
     } catch (error) {
       setLike(previousLikeState);
       setLikesCount(previousCount);
-      console.log(error);
+      // console.log(error);
     } finally {
       setIsLiking(false);
     }
@@ -161,11 +161,11 @@ const PostCard = ({
           }}
           className="origin-top"
         >
+          <div className="h-px w-full bg-neutral-400 "></div>
           <div
-            // onClick={() => setIsMenuOpen(false)}
-            className="h-px w-full bg-neutral-400 "
-          ></div>
-          <div className=" post-card w-full py-4 flex gap-2 hover:bg-neutral-400/10 px-4 my-2 rounded-md origin-top transition-colors">
+            onMouseEnter={() => router.prefetch(`/posts/${id}`)}
+            className=" post-card w-full py-4 flex gap-2 hover:bg-neutral-400/10 px-4 my-2 rounded-md origin-top transition-colors"
+          >
             <div className="h-full">
               {/* <div className="size-10 rounded-full bg-linear-to-tl from-green-600 to-lime-400"></div> */}
               <div className="size-11 flex items-center justify-center bg-conic-180 from-indigo-600 via-indigo-100 to-indigo-600 rounded-full">
@@ -231,32 +231,37 @@ const PostCard = ({
                   )}
                 </div>
               </div>
-              <div
-                onClick={() => router.push(`/posts/${id}`)}
-                className={cn(
-                  "text-sm pr-4 tracking-wide cursor-pointer max-h-200 overflow-hidden",
-                )}
-                style={
-                  isOverflowing
-                    ? {
-                        maskImage:
-                          "linear-gradient(to bottom, black 70%, transparent 100%)",
-                        WebkitMaskImage:
-                          "linear-gradient(to bottom, black 70%, transparent 100%)",
-                      }
-                    : undefined
-                }
+              <Link
+                onMouseEnter={() => router.prefetch(`/posts/${id}`)}
+                href={`/posts/${id}`}
               >
-                <h1 className="font-extrabold text-neutral-700 tracking-tight text-xl">
-                  {title}
-                </h1>
-                <br />
-                <p className="line-clamp-8 text-balance  text-neutral-800 leading-6"></p>
-                {/* <div className="post-preview max-h-175 overflow-hidden"> */}
-                <div className="post-preview overflow-hidden ">
-                  <PostContent content={content} />
+                <div
+                  // onClick={() => router.push(`/posts/${id}`)}
+                  className={cn(
+                    "text-sm pr-4 tracking-wide cursor-pointer max-h-200 overflow-hidden",
+                  )}
+                  style={
+                    isOverflowing
+                      ? {
+                          maskImage:
+                            "linear-gradient(to bottom, black 70%, transparent 100%)",
+                          WebkitMaskImage:
+                            "linear-gradient(to bottom, black 70%, transparent 100%)",
+                        }
+                      : undefined
+                  }
+                >
+                  <h1 className="font-extrabold text-neutral-700 tracking-tight text-xl">
+                    {title}
+                  </h1>
+                  <br />
+                  <p className="line-clamp-8 text-balance  text-neutral-800 leading-6"></p>
+                  {/* <div className="post-preview max-h-175 overflow-hidden"> */}
+                  <div className="post-preview overflow-hidden ">
+                    <PostContent content={content} />
+                  </div>
                 </div>
-              </div>
+              </Link>
               <div className="w-full text-neutral-700 flex gap-2">
                 <button className="flex cursor-pointer group ">
                   <AnimateIcon

@@ -1,10 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { BadgePlus, Divide, LogIn, LogOut, Search } from "lucide-react";
+import { BadgePlus, LogIn, LogOut, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "@/lib/auth-client";
-import { getCurrentUser } from "@/lib/getCurrentUser";
-import { NextRequest } from "next/server";
 
 const Header = () => {
   const router = useRouter();

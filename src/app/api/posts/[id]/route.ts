@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, { params }: Params) {
     }
     return NextResponse.json(post);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
@@ -55,7 +55,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
     return NextResponse.json(updatedPost);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
@@ -86,7 +86,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
         "Post deleted successfully",
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

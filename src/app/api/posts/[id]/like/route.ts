@@ -54,7 +54,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       likesCount,
     });
   } catch (error) {
-    console.log("LIKE_ERROR: ",error)
+    // console.log("LIKE_ERROR: ",error)
     return NextResponse.json({
       error:"Internal Server Error"
     },{status:500})
